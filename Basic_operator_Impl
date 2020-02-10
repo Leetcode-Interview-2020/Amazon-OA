@@ -1,0 +1,76 @@
+/******************************************************************************
+设计一个class，可以handle非常非常大的integer。要求实现plus，minus，multiply和divide方法。
+
+*******************************************************************************/
+
+public class Main
+{
+    public static boolean sameSign(int a, int b){
+       return (a>0 && b>0 )|| (a<0 &&b<0);
+    }
+    public static int add(int a, int b){
+        if(a==0) return b;
+        else if(b==0) return a;
+        int unit =  b>0? 1:-1;
+        int left=b;
+        while(left!=0){
+                if(b>0) {a++;left--;}
+                else {a--;left++;}
+            
+        }
+        return a;
+    }
+    
+     public static int negate(int a){
+       int res=0;
+       int temp=a;
+       while(temp!=0){
+           if(a>0) {
+               res--;
+               temp--;
+           }else{
+               res++;
+               temp++;
+           }
+       }
+       
+       return res;
+    }
+    
+    public static int subtract(int a, int b){
+        return add(a, negate(b));
+    }
+    
+    public static int multiply(int a, int b){
+        if(a==0|| b==0) return 0;
+        int res=0;
+        for(int i=0;i<Math.abs(a);i++){
+            for(int j=0;j<Math.abs(b);j++){
+                res++;
+            }
+        }
+        if(sameSign(a,b)) return res;
+        else return negate(res);
+    }
+    
+    public static int divide(int a, int b) throws Exception{
+        if( b==0) throw new Exception();
+        if(a==0) return 0;
+        int left= Math.abs(a);
+        int count=0;
+        while(left>=Math.abs(b)){
+            count++;
+            left =subtract(left,Math.abs(b));
+        }
+        
+        if(sameSign(a,b)) return count;
+        else return negate(count);
+    }
+    
+	public static void main(String[] args) throws Exception{
+		System.out.println(Main.add(0,-3));
+			System.out.println(Main.subtract(-2,-3));
+				System.out.println(Main.multiply(5,-7));
+					System.out.println(Main.divide(12,-7));
+	}
+}
